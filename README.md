@@ -27,12 +27,16 @@ versioned rollout is required; only reference tags that have been published.
 
 - Renovate's recommended baseline.
 - Conventional Commit subjects, dependency labels, and a labelled dashboard.
-- Up to five concurrent PRs; automatic merging disabled.
+- Up to five concurrent PRs; Renovate merges dependency PRs using squash.
+  Existing status checks must pass. Repositories intentionally without checks
+  explicitly set `ignoreTests: true` locally.
 - Separate update groups for GitHub Actions, Go modules, Dockerfile images,
   Compose images, Terraform providers, PEP 723 helpers, and APM modules.
 - Generated build output and installed agent context excluded from scanning.
 
-No organization-specific update schedule is imposed.
+No organization-specific update schedule is imposed. This includes major updates;
+repository restrictions still apply. Infrastructure merging updates source only:
+Terraform applies remain human-operated.
 
 ## APM consumers
 
