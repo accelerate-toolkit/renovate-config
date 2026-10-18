@@ -10,7 +10,7 @@ Add `renovate.json` to a consuming repository:
 
 ```json
 {
-  "extends": ["github>leverage-works/renovate-config"]
+  "extends": ["github>accelerate-toolkit/renovate-config"]
 }
 ```
 
