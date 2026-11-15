@@ -1,10 +1,16 @@
 # Shared delivery tooling and organization-wide adoption
 
-Recorded: 2026-11-15. Status: direction agreed; implementation unstarted.
+Recorded: 2026-11-15. Status: direction agreed; initial Renovate machinery prepared
+locally for review. Release automation and consumer migration remain unstarted.
 The owner selected one `accelerate-toolkit/delivery-tooling` repository for
 Renovate and release automation. This plan hands investigation and implementation
 to a session with access to the wider repository estate. Exact interfaces,
 migration order and repository coverage must be confirmed there.
+
+The local delivery-tooling implementation tracks its Renovate preparation in
+`docs/wip/renovate-adoption/README.md`. Repository visibility, publication and live
+pilot evidence are pending; no consumer references an unpublished tooling version.
+Keep this broader plan until the full execution handoff is published.
 
 ## Outcome
 
@@ -18,6 +24,11 @@ Renovate and release automation live together because they form a connected
 delivery process and share maintenance needs. They remain independently usable:
 adopting the Renovate runner does not enable release publication, and release
 publication does not run Renovate. Each job receives only its required permissions.
+
+Consumers own their job graph and reuse shared machinery wherever practical.
+Share the implementation of release rules and mechanics; let consumers express
+how their software gets built and checked. A shared release workflow must not
+become a mandatory wrapper around consumer pipelines.
 
 Start with one SemVer stream for delivery-tooling. Additional consumer streams
 are supported where independently versioned interfaces already require them.
@@ -40,11 +51,15 @@ accelerate-toolkit/delivery-tooling/
   release/
     versioning/                      # Version selection and release notes
     publication/                     # Drafts, tags, manifests, uploads, recovery
+  actions/
+    release-plan/                    # Composite action over shared planning CLI
+    release-verify/                  # Composite action over artifact verification
+    release-publish/                 # Composite action over shared publication CLI
   schemas/
     release.schema.json              # Proposed consumer configuration contract
   .github/workflows/
     renovate.yml                     # Reusable workflow_call entry point
-    release.yml                      # Reusable workflow_call entry point
+    # Optional reusable workflows for self-contained release jobs
     check.yml                        # Tooling's own checks
   tests/
   examples/
@@ -62,14 +77,30 @@ choosing a library or extracting reusable code.
 | --- | --- |
 | Delivery tooling | Shared presets, runner/tool versions, version calculation, notes, artifact verification, publication and recovery. |
 | Organization | Repository inventory, bot installation/token scope, organization overrides, scheduling policy and adoption tracking. |
-| Consumer | Compatibility boundary, release streams, build/check/package commands, artifact contents and supported platforms. |
+| Consumer | Compatibility boundary, release streams, job graph, build/check/package commands, matrices, runner selection, artifact contents and supported platforms. |
 | Agent context | Explain the standard and onboarding process; refer to the executable tooling and its released versions. |
 | Product/deployment owner | Pin component releases, configure environments, deploy, assess acceptance and promote. |
 
-Consumers should need only a preset reference, small caller workflows and a
-release configuration describing their supported checks and packaging interface.
-Build/package implementation stays with the consumer. Use documented Make actions
-where applicable and support a local, non-publishing release preview.
+Consumers adopt a preset reference and compose shared release machinery into
+their own workflows. Build commands, job dependencies, matrices and runner selection
+stay in those workflows. Release configuration describes streams, compatibility
+rules and expected artifacts; it must not become a second workflow language.
+Use documented Make actions where applicable.
+
+Expose shared machinery through CLI commands, including a local, non-publishing
+release preview, and composite actions for workflow integration. Reusable workflows
+remain an option for self-contained jobs. The typical consumer-owned sequence is:
+
+1. **Plan:** use shared tooling to decide whether a release is needed and calculate
+   its version and release notes.
+2. **Build and verify:** run consumer-owned checks and packaging jobs, reusing shared
+   actions where useful, then verify the expected artifact set.
+3. **Publish:** use shared tooling to publish the complete release or safely resume
+   interrupted publication.
+
+Pass an explicit release plan between jobs, binding the selected stream, version
+and source commit to the resulting artifact manifest. Define and validate this
+contract so publication can reject mismatched source, versions or artifacts.
 
 Keep this preset repository independent of APM. Shared tooling must not require
 APM merely to run Renovate or publish software. A Renovate runner can optionally
@@ -174,12 +205,16 @@ coverage from the repositories visible in the current workspace.
 
 ## Implementation and rollout sequence
 
-1. **Settle the interfaces from the inventory.** Document caller inputs, outputs,
+1. **Settle the interfaces from the inventory.** Document composable planning,
+   verification and publication interfaces, including the release-plan contract
+   passed between consumer-owned jobs. Document caller inputs, outputs,
    permissions, configuration schemas, release semantics and compatibility surface.
    Resolve how the shared repository bootstraps its first release and subsequently
    exercises its own tooling without depending on an unpublished version.
-2. **Implement and verify delivery-tooling.** Provide independently callable
-   Renovate/release workflows, local previews, focused tests and generic examples.
+2. **Implement and verify delivery-tooling.** Provide an independently callable
+   Renovate workflow and release CLI commands/composite actions, with optional
+   reusable workflows for self-contained jobs. Include local previews, focused
+   tests and generic examples of consumer-owned job graphs.
    Publish the first verified tooling version through the authorized release process.
    Never insert an imagined release version into consumer manifests.
 3. **Pilot representative consumers.** Include a source-only deliverable and an
@@ -232,5 +267,6 @@ Read this repository's `AGENTS.md`, [README](../../README.md), preset and valida
 workflow, then perform the broader inventory above. Confirm the repository creation
 and visibility approach, choose the reusable implementation and pilots, and make
 the organization-wide change through the applicable reviewed workflows. This
-session prepares the plan only; no repository creation, release publication,
-consumer migration or deployment has been performed by writing it.
+plan does not establish live adoption. Local Renovate preparation has started;
+no remote delivery-tooling repository creation, release publication, consumer
+migration or deployment has been performed.

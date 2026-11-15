@@ -14,5 +14,6 @@
       ],
       "datasourceTemplate": "docker"
     }
-  ]
+  ],
+  "automerge": false
 }

@@ -7,8 +7,9 @@ agent-context, and validation requires only Make and Docker.
 The agreed direction is to bring Renovate and release automation together in
 `accelerate-toolkit/delivery-tooling`, preserving this preset address during
 migration. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
-broader repository investigation and rollout to the next session. Implementation
-has not started; the adoption instructions below describe the current preset.
+broader repository investigation and rollout forward. Initial Renovate machinery
+is prepared locally for review; shared-tooling publication and migration have
+not started. The adoption instructions below describe the current preset.
 
 ## Adopt
 
@@ -62,7 +63,13 @@ credentials scoped to its repositories. Runner configuration owns repository
 selection, authentication, and tool installation. Do not commit credentials here.
 
 This repo's `renovate.json` adopts the shared defaults and tracks the validator
-image in the Makefile. A runner must onboard this repo before those updates run.
+image in the Makefile. It explicitly disables automerge for this repository;
+the public preset's existing merge policy is unchanged. Its dependency-update
+workflow runs weekly and supports manual dispatch, defaulting to a non-writing
+preview for manual runs. Configure a repository-scoped GitHub-only
+`RENOVATE_TOKEN` with contents, pull-request, issue and workflow-update access.
+After publication, verify authentication, extraction and an actual dependency PR
+before treating onboarding as complete.
 
 ## Development
 
