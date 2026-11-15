@@ -4,6 +4,12 @@ Shared Renovate defaults for Leverage Works and downstream organizations.
 This is a standalone configuration repository: it has no dependency on APM or
 agent-context, and validation requires only Make and Docker.
 
+The agreed direction is to bring Renovate and release automation together in
+`accelerate-toolkit/delivery-tooling`, preserving this preset address during
+migration. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
+broader repository investigation and rollout to the next session. Implementation
+has not started; the adoption instructions below describe the current preset.
+
 ## Adopt
 
 Add `renovate.json` to a consuming repository:
