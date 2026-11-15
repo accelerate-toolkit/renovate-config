@@ -8,8 +8,8 @@ The agreed direction is to bring Renovate and release automation together in
 `accelerate-toolkit/delivery-tooling`, preserving this preset address during
 migration. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
 broader repository investigation and rollout forward. The public delivery-tooling
-repository and initial Renovate source are published. Release machinery is approved
-for publication; no tooling release or migration is claimed. The adoption
+repository and verified v0.1.0 source release are published. Consumer migration
+remains pending. The adoption
 instructions below describe the current preset.
 
 ## Adopt
