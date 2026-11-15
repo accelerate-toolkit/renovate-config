@@ -1,16 +1,19 @@
 # Shared delivery tooling and organization-wide adoption
 
-Recorded: 2026-11-15. Status: direction agreed; initial Renovate machinery prepared
-locally for review. Release automation and consumer migration remain unstarted.
+Recorded: 2026-11-15. Status: public delivery-tooling repository created and initial
+Renovate machinery pushed. Release machinery is implemented and approved for publication;
+no tooling release or consumer migration is claimed.
 The owner selected one `accelerate-toolkit/delivery-tooling` repository for
 Renovate and release automation. This plan hands investigation and implementation
 to a session with access to the wider repository estate. Exact interfaces,
 migration order and repository coverage must be confirmed there.
 
-The local delivery-tooling implementation tracks its Renovate preparation in
-`docs/wip/renovate-adoption/README.md`. Repository visibility, publication and live
-pilot evidence are pending; no consumer references an unpublished tooling version.
-Keep this broader plan until the full execution handoff is published.
+The [delivery-tooling repository](https://github.com/accelerate-toolkit/delivery-tooling)
+is public. Its implementation tracks release and Renovate work in
+`docs/wip/delivery-tooling/README.md`; that expanded tracker is approved for publication.
+Live pilot evidence and the first tooling release remain pending; no consumer
+references an unpublished tooling version. Keep this broader plan until the full
+execution handoff is published.
 
 ## Outcome
 
@@ -267,6 +270,6 @@ Read this repository's `AGENTS.md`, [README](../../README.md), preset and valida
 workflow, then perform the broader inventory above. Confirm the repository creation
 and visibility approach, choose the reusable implementation and pilots, and make
 the organization-wide change through the applicable reviewed workflows. This
-plan does not establish live adoption. Local Renovate preparation has started;
-no remote delivery-tooling repository creation, release publication, consumer
-migration or deployment has been performed.
+plan does not establish live adoption. The public repository and initial source
+are published; release machinery is approved for its first self-hosted publication.
+No tooling release, consumer migration or deployment has been performed.

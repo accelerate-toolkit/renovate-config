@@ -7,9 +7,10 @@ agent-context, and validation requires only Make and Docker.
 The agreed direction is to bring Renovate and release automation together in
 `accelerate-toolkit/delivery-tooling`, preserving this preset address during
 migration. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
-broader repository investigation and rollout forward. Initial Renovate machinery
-is prepared locally for review; shared-tooling publication and migration have
-not started. The adoption instructions below describe the current preset.
+broader repository investigation and rollout forward. The public delivery-tooling
+repository and initial Renovate source are published. Release machinery is approved
+for publication; no tooling release or migration is claimed. The adoption
+instructions below describe the current preset.
 
 ## Adopt
 
