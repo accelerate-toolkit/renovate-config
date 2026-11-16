@@ -69,11 +69,12 @@ history before regenerating blocked updates. Closing old PRs and dashboards alon
 does not establish that the app has taken ownership; check for blocked or ignored
 updates afterward. Retire old secrets only after confirming no remaining users.
 
-This repository has a hosted scan and app-created PR, and its old Actions runner
-has been removed. Automatic merge and update-runtime verification remain pending.
-Its local automerge enablement is prepared but must be published before it governs
-hosted runs. The shared preset remains at this address; migration to the published
-delivery-tooling repository is a separate rollout.
+This repository has verified a hosted scan, app-created PR, passing CI and an
+actual Renovate-managed merge outside its creation window. See the
+[pilot evidence](../evidence/hosted-renovate/README.md). The follow-up run was manually
+requested, so normal scheduler latency remains unmeasured. Artifact-heavy consumer
+runtime verification remains separate. The shared preset remains at this address;
+migration to delivery-tooling is a separate rollout.
 
 ## Sources
 
@@ -85,3 +86,25 @@ Checked 2026-11-16:
 - [Updates outside the creation schedule](https://docs.renovatebot.com/configuration-options/#updatenotscheduled)
 - [Mend resource tiers](https://docs.mend.io/renovate/latest/mend-renovate-cloud-resource-tiers)
 - [GitHub auto-merge availability](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/automatically-merging-a-pull-request)
+
+## Rollout and Actions-minute policy
+
+The owner approved app rollout across both organizations on 2026-11-16. Private
+Go-module validation is no longer a rollout prerequisite where current manifests
+have no private Go requirements. Reintroduce access verification only if a real
+private dependency is added; do not expand app credentials for hypothetical needs.
+Other private package managers still need their own access verification.
+
+Use one hosted bot per repository and remove duplicate scheduled Actions runners.
+Keep existing PR checks; do not dispatch additional CI merely to demonstrate
+onboarding. New consumers group updates into one PR with concurrency one to avoid
+unnecessary check runs. Preserve established grouping unless separately reviewed.
+No CI workflow is added solely for Renovate. Repositories without CI explicitly
+use the owner-approved `ignoreTests: true` policy; repositories with tests keep
+waiting for them. Do not use repeated dashboard retries as a polling mechanism.
+
+An administrative rollout commit may skip CI where repository policy permits it
+and local targeted validation covers the change. Dependency-update PRs still run
+their normal checks. Hosted scans and CI are separate: saving Actions minutes does
+not remove hosted job timeouts. Local rollout preparation is not proof that app
+access has been expanded or every repository has completed a scan.

@@ -1,6 +1,6 @@
 # ADR 0001: Hosted Renovate with Renovate-managed merging
 
-Status: Accepted; rollout and merge verification incomplete.
+Status: Accepted; this repository’s managed merge verified, broader rollout incomplete.
 Date: 2026-11-16.
 
 ## Context
@@ -48,12 +48,15 @@ CI turns green is not guaranteed. This delay is accepted.
 ## Consequences and verification
 
 Checks and merge restrictions still gate merging. Failed, conflicting or manually
-edited updates may remain open for intervention. No tests may be bypassed merely
-to clear the PR list. Repository-specific opt-outs must be tracked explicitly.
+edited updates may remain open for intervention. Existing tests may not be bypassed merely to clear the PR list. For repositories
+with no CI, the owner explicitly approved `ignoreTests: true` on 2026-11-16;
+no workflow is added solely to satisfy the bot. Track these exceptions locally.
+The same decision approved both-organization rollout and retired hypothetical
+private-Go validation as a prerequisite where current dependencies are public.
 
 The shared presets already select Renovate-managed merging. This repository's
-local automerge enablement is prepared; publication and a successful automatic
-merge must be verified separately. Other consumers are not migrated simply by
+local automerge enablement is published and an actual bot-managed merge is
+[verified](../evidence/hosted-renovate/README.md). Other consumers are not migrated simply by
 publishing this decision. Existing private rollout details remain in their owning
 repositories, not in this public repository.
 
