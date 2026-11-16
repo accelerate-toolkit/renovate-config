@@ -64,13 +64,26 @@ credentials scoped to its repositories. Runner configuration owns repository
 selection, authentication, and tool installation. Do not commit credentials here.
 
 This repo's `renovate.json` adopts the shared defaults and tracks the validator
-image in the Makefile. It explicitly disables automerge for this repository;
-the public preset's existing merge policy is unchanged. This repository uses the
+image in the Makefile. It enables Renovate-managed squash merging for this repository
+(`automerge: true`, `platformAutomerge: false`), matching the shared preset.
+Renovate checks CI results and mergeability on a later run, then merges eligible
+PRs itself. The `config` check is required on `main`; GitHub's native auto-merge
+setting is not needed. This also supports private consumers on GitHub Free.
+This repository uses the
 Mend-hosted Renovate GitHub App on the Community plan. Its local configuration
 allows dependency updates before 06:00 on Mondays in `Europe/London`; the shared
 preset imposes no schedule. Mend owns runner scheduling and GitHub authentication,
 so no `RENOVATE_TOKEN` or scheduled dependency-update Actions workflow is needed.
 Validation CI remains in GitHub Actions.
+
+Monday controls new update creation, not when green PRs may merge. Subsequent
+hosted runs can merge throughout the week; they do not wait until next Monday.
+Active Community repositories are normally scheduled every four hours; newly
+onboarded repositories may be daily until the first Renovate PR merges. Queueing
+can add delay, and merging is not instantaneous when CI passes. See the
+[execution design](docs/design/dependency-updates.md) and
+[decision](docs/decisions/0001-hosted-renovate-managed-merging.md) for details,
+verification status and the distinction from weekly Actions runners.
 
 Inspect hosted jobs and logs in the [Mend developer portal](https://developer.mend.io/github/accelerate-toolkit/renovate-config).
 Verify extraction, an actual dependency PR and its CI checks before treating the

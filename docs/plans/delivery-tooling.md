@@ -15,6 +15,19 @@ The [first source-release evidence](https://github.com/accelerate-toolkit/delive
 records v0.1.0. Application pilots and consumer migration remain pending. This
 plan retains the broader agreed requirements; use the WIP for current execution status.
 
+## Renovate execution decision update — 2026-11-16
+
+[ADR 0001](../decisions/0001-hosted-renovate-managed-merging.md) selects the
+Mend-hosted app with Renovate-managed merging for the current rollout. Monday's
+creation window and subsequent hosted merge runs are separate; see the
+[execution design](../design/dependency-updates.md). Hosted adoption does not
+require adopting the reusable Actions runner. That runner remains an available
+alternative, not a prerequisite for the hosted pilots. Preset migration to
+delivery-tooling and release-tooling adoption remain separate pending work.
+
+This update qualifies the runner-adoption steps below; it does not replace the
+broader release requirements or claim completed consumer migration.
+
 ## Outcome
 
 Give maintained repositories a consistent dependency-update and SemVer release
