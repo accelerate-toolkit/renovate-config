@@ -9,10 +9,12 @@
   "labels": [
     "dependencies"
   ],
-  "dependencyDashboard": true,
-  "dependencyDashboardLabels": [
-    "renovate-dependency-dashboard"
-  ],
+  "dependencyDashboard": {
+    "enabled": true,
+    "labels": [
+      "renovate-dependency-dashboard"
+    ]
+  },
   "prConcurrentLimit": 5,
   "ignorePaths": [
     "**/node_modules/**",

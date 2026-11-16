@@ -108,3 +108,12 @@ and local targeted validation covers the change. Dependency-update PRs still run
 their normal checks. Hosted scans and CI are separate: saving Actions minutes does
 not remove hosted job timeouts. Local rollout preparation is not proof that app
 access has been expanded or every repository has completed a scan.
+
+## Validator maintenance
+
+Both shared presets use the current `dependencyDashboard` object with `enabled`
+and `labels` fields. Keep the pinned local validator compatible with this schema;
+the former boolean and `dependencyDashboardLabels` settings require migration and
+fail strict validation on newer Renovate releases. See the
+[dashboard configuration](https://docs.renovatebot.com/configuration-options/#dependencydashboard).
+This migration changes configuration shape, not dashboard or merge policy.
