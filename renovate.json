@@ -15,5 +15,9 @@
       "datasourceTemplate": "docker"
     }
   ],
-  "automerge": false
+  "automerge": false,
+  "timezone": "Europe/London",
+  "schedule": [
+    "before 6am on monday"
+  ]
 }

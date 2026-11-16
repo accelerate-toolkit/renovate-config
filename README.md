@@ -65,12 +65,17 @@ selection, authentication, and tool installation. Do not commit credentials here
 
 This repo's `renovate.json` adopts the shared defaults and tracks the validator
 image in the Makefile. It explicitly disables automerge for this repository;
-the public preset's existing merge policy is unchanged. Its dependency-update
-workflow runs weekly and supports manual dispatch, defaulting to a non-writing
-preview for manual runs. Configure a repository-scoped GitHub-only
-`RENOVATE_TOKEN` with contents, pull-request, issue and workflow-update access.
-After publication, verify authentication, extraction and an actual dependency PR
-before treating onboarding as complete.
+the public preset's existing merge policy is unchanged. This repository uses the
+Mend-hosted Renovate GitHub App on the Community plan. Its local configuration
+allows dependency updates before 06:00 on Mondays in `Europe/London`; the shared
+preset imposes no schedule. Mend owns runner scheduling and GitHub authentication,
+so no `RENOVATE_TOKEN` or scheduled dependency-update Actions workflow is needed.
+Validation CI remains in GitHub Actions.
+
+Inspect hosted jobs and logs in the [Mend developer portal](https://developer.mend.io/github/accelerate-toolkit/renovate-config).
+Verify extraction, an actual dependency PR and its CI checks before treating the
+pilot as complete. Retire the old token only after confirming no other consumer
+uses it. Other repositories retain their existing runners until migrated.
 
 ## Development
 
