@@ -4,9 +4,8 @@ Shared Renovate defaults for Leverage Works and downstream organizations.
 This is a standalone configuration repository: it has no dependency on APM or
 agent-context, and validation requires only Make and Docker.
 
-The agreed direction is to bring Renovate and release automation together in
-`accelerate-toolkit/delivery-tooling`, preserving this preset address during
-migration. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
+Reusable runner and release automation live in `accelerate-toolkit/delivery-tooling`.
+Grouping policy remains here; delivery-tooling delegates to this preset. The [delivery-tooling plan](docs/plans/delivery-tooling.md) hands the
 broader repository investigation and rollout forward. The public delivery-tooling
 repository and verified v0.1.0 source release are published. Consumer migration
 remains pending. The adoption
@@ -35,20 +34,44 @@ versioned rollout is required; only reference tags that have been published.
 
 - Renovate's recommended baseline.
 - Conventional Commit subjects, dependency labels, and a labelled dashboard.
-- Up to five concurrent PRs; Renovate merges dependency PRs using squash.
+- Up to two concurrent PRs; Renovate merges dependency PRs using squash.
   Existing status checks must pass. Repositories intentionally without checks
   explicitly set `ignoreTests: true` locally.
-- Separate update groups for GitHub Actions, Go modules, Dockerfile images,
-  Compose images, Terraform providers, PEP 723 helpers, and APM modules.
+- Two groups across all managers: internal dependencies and external dependencies.
+  Major, minor, patch and digest updates stay in their respective group.
 - Generated build output and installed agent context excluded from scanning.
 
 No organization-specific update schedule is imposed. This includes major updates;
 repository restrictions still apply. Infrastructure merging updates source only:
 Terraform applies remain human-operated.
 
+## Internal and external groups
+
+The grouping policy lives in `groups.json`, inherited by the default preset.
+By default, packages owned by `accelerate-toolkit` are internal. Private consumers
+supply their organization names as parameters without publishing private inventory:
+
+```json
+{
+  "extends": [
+    "github>accelerate-toolkit/renovate-config",
+    "github>accelerate-toolkit/renovate-config:groups(accelerate-toolkit|example-org)"
+  ]
+}
+```
+
+Pass trusted GitHub organization names separated by `|`. The preset recognizes
+repository/package coordinates, Go import paths, GitHub source URLs, GHCR images
+and scoped npm names. All other packages are external. The last matching internal
+rule overrides the external catch-all. Keep local extraction and test policy, but
+remove `group:all`, manager-specific groups and PR-limit overrides to inherit this
+policy. The limit is two concurrent normal PRs, not a guarantee of two runs weekly.
+Lockfile maintenance, if enabled by a consumer, remains a separate Renovate operation;
+security and replacement updates may also need separate handling.
+
 ## APM consumers
 
-The APM rule only groups dependencies discovered in consuming repositories.
+The grouping rules include APM dependencies discovered in consuming repositories.
 It does not install or depend on APM in this repository.
 
 Consumers must pin remote APM dependencies to explicit release refs such as

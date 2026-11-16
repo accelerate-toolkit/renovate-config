@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Group dependencies into internal and external updates; pass trusted GitHub organization names separated by |.",
+  "prConcurrentLimit": 2,
+  "separateMajorMinor": false,
+  "separateMinorPatch": false,
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "*"
+      ],
+      "groupName": "external dependencies",
+      "groupSlug": "external-dependencies",
+      "separateMajorMinor": false,
+      "separateMinorPatch": false
+    },
+    {
+      "matchPackageNames": [
+        "/^(?:(?:git::)?https:\\/\\/github\\.com\\/|github\\.com\\/|ghcr\\.io\\/|@)?(?:{{arg0}})\\//"
+      ],
+      "groupName": "internal dependencies",
+      "groupSlug": "internal-dependencies"
+    },
+    {
+      "matchSourceUrls": [
+        "/^https:\\/\\/github\\.com\\/(?:{{arg0}})\\//"
+      ],
+      "groupName": "internal dependencies",
+      "groupSlug": "internal-dependencies"
+    }
+  ]
+}

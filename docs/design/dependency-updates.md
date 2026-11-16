@@ -97,8 +97,10 @@ Other private package managers still need their own access verification.
 
 Use one hosted bot per repository and remove duplicate scheduled Actions runners.
 Keep existing PR checks; do not dispatch additional CI merely to demonstrate
-onboarding. New consumers group updates into one PR with concurrency one to avoid
-unnecessary check runs. Preserve established grouping unless separately reviewed.
+onboarding. Consumers inherit the [two-group policy](../decisions/0002-internal-and-external-update-groups.md):
+internal and external dependencies, including majors, with two concurrent normal
+PRs. Organization namespaces are parameters; extraction remains local. Remove
+consumer grouping overrides so the shared rules remain authoritative.
 No CI workflow is added solely for Renovate. Repositories without CI explicitly
 use the owner-approved `ignoreTests: true` policy; repositories with tests keep
 waiting for them. Do not use repeated dashboard retries as a polling mechanism.

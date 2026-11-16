@@ -22,8 +22,10 @@ Mend-hosted app with Renovate-managed merging for the current rollout. Monday's
 creation window and subsequent hosted merge runs are separate; see the
 [execution design](../design/dependency-updates.md). Hosted adoption does not
 require adopting the reusable Actions runner. That runner remains an available
-alternative, not a prerequisite for the hosted pilots. Preset migration to
-delivery-tooling and release-tooling adoption remain separate pending work.
+alternative, not a prerequisite for the hosted pilots. The later [grouping decision](../decisions/0002-internal-and-external-update-groups.md)
+keeps grouping policy in renovate-config, with delivery-tooling delegating to it.
+This supersedes the proposed preset-ownership move below. Release-tooling adoption
+remains separate pending work.
 
 This update qualifies the runner-adoption steps below; it does not replace the
 broader release requirements or claim completed consumer migration.
