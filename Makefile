@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-RENOVATE_IMAGE := ghcr.io/renovatebot/renovate:44.90.2
+RENOVATE_IMAGE := ghcr.io/renovatebot/renovate:44.242.0
 
 .PHONY: help check
 help: ## List available repository actions.
